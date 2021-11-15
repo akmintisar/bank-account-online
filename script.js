@@ -35,10 +35,31 @@ const account4 = {
 
 const accounts = [account1, account2, account3, account4];
 
+const createUserName = function (accs) {
+  accs.forEach(function (acc) {
+    acc.userName = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(element => element[0])
+      .join('');
+  });
+};
+
+createUserName(accounts);
+console.log(accounts);
+
+const calcPrintBalance = function (movements) {
+  const balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
+  labelBalance.textContent = `${balanceTotal} EURO`;
+  console.log(balanceTotal);
+};
+
+calcPrintBalance(account1.movements);
+
 // Elements
 // const labelWelcome = document.querySelector('.welcome');
 // const labelDate = document.querySelector('.date');
-// const labelBalance = document.querySelector('.balance__value');
+const labelBalance = document.querySelector('.balance__value');
 // const labelSumIn = document.querySelector('.summary__value--in');
 // const labelSumOut = document.querySelector('.summary__value--out');
 // const labelSumInterest = document.querySelector('.summary__value--interest');
@@ -61,9 +82,25 @@ const accounts = [account1, account2, account3, account4];
 // const inputCloseUsername = document.querySelector('.form__input--user');
 // const inputClosePin = document.querySelector('.form__input--pin');
 
-/////////////////////////////////////////////////
-/////////////////////////////////////////////////
-// LECTURES
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+  movements.forEach(function (movement, index) {
+    const type = movement > 0 ? 'deposit' : 'withdrawal';
+    const html = `<div class="movements__row">
+    <div class="movements__type movements__type--${type}">
+      ${index + 1} ${type}
+    </div>
+
+    <div class="movements__value">${movement}</div>
+  </div>`;
+
+    containerMovements.insertAdjacentHTML('afterBegin', html);
+  });
+};
+displayMovements(account1.movements);
+//////////////////////////////////////////////
+///////////////////////////////////////////////
+LECTURES;
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -72,7 +109,11 @@ const currencies = new Map([
 ]);
 
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const withdrawals = movements.filter(move => move < 0);
+console.log(withdrawals);
 
+const balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
+console.log(balanceTotal);
 movements.forEach(function (movement, index, array) {
   if (movement > 0) {
     console.log(
