@@ -80,8 +80,6 @@ const calcPrintBalance = function (movements) {
   console.log(balanceTotal);
 };
 
-calcPrintBalance(account1.movements);
-
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
   movements.forEach(function (movement, index) {
@@ -97,7 +95,7 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterBegin', html);
   });
 };
-displayMovements(account1.movements);
+
 //////////////////////////////////////////////
 ///////////////////////////////////////////////
 //LECTURES;
@@ -151,4 +149,19 @@ const totalInterest =
 console.log(totalInterest);
 labelSumInterest.textContent = totalInterest;
 //--------------------------------------------------
-/////////////////////////////////////////////////
+let currentAcc;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAcc = accounts.find(acc => acc.userName === inputLoginUsername.value);
+  console.log(currentAcc);
+
+  if (currentAcc?.pin === Number(inputLoginPin.value)) {
+    console.log('Pin Matched');
+    labelWelcome.textContent = `Welcome back ${currentAcc.owner.split(' ')[0]}`;
+    containerApp.style.opacity = 100;
+    displayMovements(account1.movements);
+    calcPrintBalance(account1.movements);
+  }
+  console.log('clicked');
+});
+///////////////////////////////////////////////
