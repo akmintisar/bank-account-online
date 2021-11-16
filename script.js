@@ -124,30 +124,32 @@ movements.forEach(function (movement, index, array) {
   }
 });
 //--------------------------------------------------
-//Total Deposit Calculation
-const totalDeposit = movements
-  .filter(movement => movement > 0)
-  .reduce((curr, prev) => curr + prev, 0);
-console.log(totalDeposit);
-labelSumIn.textContent = totalDeposit;
-//--------------------------------------------------
-//Total Withdrawal Calculation
-const totalWithdraw = movements
-  .filter(movement => movement < 0)
-  .reduce((curr, prev) => curr + prev, 0);
-console.log(totalWithdraw);
-labelSumOut.textContent = Math.abs(totalWithdraw);
-//--------------------------------------------------
-//Total Interest Calculation
-const interestRate = 1.2;
-const totalInterest =
-  (movements
+const calcDisplaySummary = function (acc) {
+  //Total Deposit Calculation
+  const totalDeposit = acc.movements
     .filter(movement => movement > 0)
-    .reduce((curr, prev) => curr + prev, 0) *
-    interestRate) /
-  100;
-console.log(totalInterest);
-labelSumInterest.textContent = totalInterest;
+    .reduce((curr, prev) => curr + prev, 0);
+  console.log(totalDeposit);
+  labelSumIn.textContent = totalDeposit;
+  //--------------------------------------------------
+  //Total Withdrawal Calculation
+  const totalWithdraw = acc.movements
+    .filter(movement => movement < 0)
+    .reduce((curr, prev) => curr + prev, 0);
+  console.log(totalWithdraw);
+  labelSumOut.textContent = Math.abs(totalWithdraw);
+  //--------------------------------------------------
+  //Total Interest Calculation
+
+  const totalInterest =
+    (acc.movements
+      .filter(movement => movement > 0)
+      .reduce((curr, prev) => curr + prev, 0) *
+      acc.interestRate) /
+    100;
+  console.log(totalInterest);
+  labelSumInterest.textContent = totalInterest;
+};
 //--------------------------------------------------
 let currentAcc;
 btnLogin.addEventListener('click', function (e) {
@@ -159,8 +161,9 @@ btnLogin.addEventListener('click', function (e) {
     console.log('Pin Matched');
     labelWelcome.textContent = `Welcome back ${currentAcc.owner.split(' ')[0]}`;
     containerApp.style.opacity = 100;
-    displayMovements(account1.movements);
-    calcPrintBalance(account1.movements);
+    displayMovements(currentAcc.movements);
+    calcPrintBalance(currentAcc.movements);
+    calcDisplaySummary(currentAcc);
   }
   console.log('clicked');
 });
