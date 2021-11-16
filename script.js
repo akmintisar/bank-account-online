@@ -32,8 +32,34 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
 };
-
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const accounts = [account1, account2, account3, account4];
+
+// Elements
+const labelWelcome = document.querySelector('.welcome');
+const labelDate = document.querySelector('.date');
+const labelBalance = document.querySelector('.balance__value');
+const labelSumIn = document.querySelector('.summary__value--in');
+const labelSumOut = document.querySelector('.summary__value--out');
+const labelSumInterest = document.querySelector('.summary__value--interest');
+const labelTimer = document.querySelector('.timer');
+
+const containerApp = document.querySelector('.app');
+const containerMovements = document.querySelector('.movements');
+
+const btnLogin = document.querySelector('.login__btn');
+const btnTransfer = document.querySelector('.form__btn--transfer');
+const btnLoan = document.querySelector('.form__btn--loan');
+const btnClose = document.querySelector('.form__btn--close');
+const btnSort = document.querySelector('.btn--sort');
+
+const inputLoginUsername = document.querySelector('.login__input--user');
+const inputLoginPin = document.querySelector('.login__input--pin');
+const inputTransferTo = document.querySelector('.form__input--to');
+const inputTransferAmount = document.querySelector('.form__input--amount');
+const inputLoanAmount = document.querySelector('.form__input--loan-amount');
+const inputCloseUsername = document.querySelector('.form__input--user');
+const inputClosePin = document.querySelector('.form__input--pin');
 
 const createUserName = function (accs) {
   accs.forEach(function (acc) {
@@ -56,32 +82,6 @@ const calcPrintBalance = function (movements) {
 
 calcPrintBalance(account1.movements);
 
-// Elements
-// const labelWelcome = document.querySelector('.welcome');
-// const labelDate = document.querySelector('.date');
-const labelBalance = document.querySelector('.balance__value');
-// const labelSumIn = document.querySelector('.summary__value--in');
-// const labelSumOut = document.querySelector('.summary__value--out');
-// const labelSumInterest = document.querySelector('.summary__value--interest');
-// const labelTimer = document.querySelector('.timer');
-
-// const containerApp = document.querySelector('.app');
-// const containerMovements = document.querySelector('.movements');
-
-// const btnLogin = document.querySelector('.login__btn');
-// const btnTransfer = document.querySelector('.form__btn--transfer');
-// const btnLoan = document.querySelector('.form__btn--loan');
-// const btnClose = document.querySelector('.form__btn--close');
-// const btnSort = document.querySelector('.btn--sort');
-
-// const inputLoginUsername = document.querySelector('.login__input--user');
-// const inputLoginPin = document.querySelector('.login__input--pin');
-// const inputTransferTo = document.querySelector('.form__input--to');
-// const inputTransferAmount = document.querySelector('.form__input--amount');
-// const inputLoanAmount = document.querySelector('.form__input--loan-amount');
-// const inputCloseUsername = document.querySelector('.form__input--user');
-// const inputClosePin = document.querySelector('.form__input--pin');
-
 const displayMovements = function (movements) {
   containerMovements.innerHTML = '';
   movements.forEach(function (movement, index) {
@@ -100,7 +100,7 @@ const displayMovements = function (movements) {
 displayMovements(account1.movements);
 //////////////////////////////////////////////
 ///////////////////////////////////////////////
-LECTURES;
+//LECTURES;
 
 const currencies = new Map([
   ['USD', 'United States dollar'],
@@ -108,12 +108,12 @@ const currencies = new Map([
   ['GBP', 'Pound sterling'],
 ]);
 
-const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const withdrawals = movements.filter(move => move < 0);
 console.log(withdrawals);
 
 const balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
 console.log(balanceTotal);
+
 movements.forEach(function (movement, index, array) {
   if (movement > 0) {
     console.log(
@@ -125,5 +125,30 @@ movements.forEach(function (movement, index, array) {
     );
   }
 });
-
+//--------------------------------------------------
+//Total Deposit Calculation
+const totalDeposit = movements
+  .filter(movement => movement > 0)
+  .reduce((curr, prev) => curr + prev, 0);
+console.log(totalDeposit);
+labelSumIn.textContent = totalDeposit;
+//--------------------------------------------------
+//Total Withdrawal Calculation
+const totalWithdraw = movements
+  .filter(movement => movement < 0)
+  .reduce((curr, prev) => curr + prev, 0);
+console.log(totalWithdraw);
+labelSumOut.textContent = Math.abs(totalWithdraw);
+//--------------------------------------------------
+//Total Interest Calculation
+const interestRate = 1.2;
+const totalInterest =
+  (movements
+    .filter(movement => movement > 0)
+    .reduce((curr, prev) => curr + prev, 0) *
+    interestRate) /
+  100;
+console.log(totalInterest);
+labelSumInterest.textContent = totalInterest;
+//--------------------------------------------------
 /////////////////////////////////////////////////
