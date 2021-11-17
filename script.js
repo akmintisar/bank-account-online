@@ -32,8 +32,15 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
 };
+
+const account5 = {
+  owner: 'A K M Intisar Islam',
+  movements: [100, 300, 500, 700, 900],
+  interestRate: 3,
+  pin: 6666,
+};
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-const accounts = [account1, account2, account3, account4];
+const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -75,8 +82,9 @@ createUserName(accounts);
 console.log(accounts);
 
 const calcPrintBalance = function (movements) {
-  const balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
-  labelBalance.textContent = `${balanceTotal} EURO`;
+  movements.balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
+  movements.balance = balanceTotal;
+  labelBalance.textContent = `${movements.balanceTotal} EURO`;
   console.log(balanceTotal);
 };
 
@@ -166,5 +174,24 @@ btnLogin.addEventListener('click', function (e) {
     calcDisplaySummary(currentAcc);
   }
   console.log('clicked');
+});
+//--------------------------------------------------
+//Transfer
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    acc => acc.userName === inputTransferTo.value
+  );
+  if (
+    amount > 0 &&
+    currentAcc.balanceTotal >= amount &&
+    receiverAcc?.userName !== current.userName
+  ) {
+    console.log('clicked');
+
+    console.log(amount);
+    console.log(receiverAcc);
+  }
 });
 ///////////////////////////////////////////////
