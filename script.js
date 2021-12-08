@@ -52,7 +52,11 @@ const createUserName = function (accs) {
 };
 
 createUserName(accounts);
-console.log(accounts);
+
+// Sorting Array
+console.log(movements);
+movements.sort((a, b) => a - b);
+console.log(movements);
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -86,9 +90,11 @@ const calcPrintBalance = function (acc) {
   console.log(balanceTotal);
 };
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
-  movements.forEach(function (movement, index) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
     <div class="movements__type movements__type--${type}">
@@ -232,3 +238,11 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = inputClosePin.value = '';
 });
 /////////////////////////////////////////////
+// Sort Button
+var sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAcc.movements, !sorted);
+  sorted = !sorted;
+  console.log('sort click');
+});
