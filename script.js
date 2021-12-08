@@ -34,10 +34,10 @@ const account4 = {
 };
 
 const account5 = {
-  owner: 'A K M Intisar Islam',
-  movements: [100, 300, 500, 700, 900],
+  owner: 'N I S H A T',
+  movements: [100, 300, 500, 700, 900, -100, -400, -200, 10000, 20000],
   interestRate: 3,
-  pin: 6666,
+  pin: 6969,
 };
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 const accounts = [account1, account2, account3, account4, account5];
@@ -53,10 +53,6 @@ const createUserName = function (accs) {
 
 createUserName(accounts);
 
-// Sorting Array
-console.log(movements);
-movements.sort((a, b) => a - b);
-console.log(movements);
 // Elements
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
@@ -87,7 +83,6 @@ const calcPrintBalance = function (acc) {
   acc.balanceTotal = acc.movements.reduce((prev, curr) => prev + curr, 0);
 
   labelBalance.textContent = `${acc.balanceTotal} EURO`;
-  console.log(balanceTotal);
 };
 
 const displayMovements = function (movements, sort = false) {
@@ -119,36 +114,34 @@ const currencies = new Map([
 ]);
 
 const withdrawals = movements.filter(move => move < 0);
-console.log(withdrawals);
 
 const balanceTotal = movements.reduce((prev, curr) => prev + curr, 0);
-console.log(balanceTotal);
 
-movements.forEach(function (movement, index, array) {
-  if (movement > 0) {
-    console.log(
-      `Movement ${index + 1}: You've deposited ${movement} and ${array}`
-    );
-  } else {
-    console.log(
-      `Movement ${index + 1}: You've withdrawn ${Math.abs(movement)}`
-    );
-  }
-});
+// movements.forEach(function (movement, index, array) {
+//   if (movement > 0) {
+//     console.log(
+//       `Movement ${index + 1}: You've deposited ${movement} and ${array}`
+//     );
+//   } else {
+//     console.log(
+//       `Movement ${index + 1}: You've withdrawn ${Math.abs(movement)}`
+//     );
+//   }
+// });
 //--------------------------------------------------
 const calcDisplaySummary = function (acc) {
   //Total Deposit Calculation
   const totalDeposit = acc.movements
     .filter(movement => movement > 0)
     .reduce((curr, prev) => curr + prev, 0);
-  console.log(totalDeposit);
+
   labelSumIn.textContent = totalDeposit;
   //--------------------------------------------------
   //Total Withdrawal Calculation
   const totalWithdraw = acc.movements
     .filter(movement => movement < 0)
     .reduce((curr, prev) => curr + prev, 0);
-  console.log(totalWithdraw);
+
   labelSumOut.textContent = Math.abs(totalWithdraw);
   //--------------------------------------------------
   //Total Interest Calculation
@@ -159,7 +152,7 @@ const calcDisplaySummary = function (acc) {
       .reduce((curr, prev) => curr + prev, 0) *
       acc.interestRate) /
     100;
-  console.log(totalInterest);
+
   labelSumInterest.textContent = totalInterest;
 };
 //--------------------------------------------------
@@ -172,15 +165,12 @@ let currentAcc;
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAcc = accounts.find(acc => acc.userName === inputLoginUsername.value);
-  console.log(currentAcc);
 
   if (currentAcc?.pin === Number(inputLoginPin.value)) {
-    console.log('Pin Matched');
     labelWelcome.textContent = `Welcome back ${currentAcc.owner.split(' ')[0]}`;
     containerApp.style.opacity = 100;
     updateUI(currentAcc);
   }
-  console.log('clicked');
 });
 //--------------------------------------------------
 //Transfer
@@ -191,14 +181,12 @@ btnTransfer.addEventListener('click', function (e) {
     acc => acc.userName === inputTransferTo.value
   );
 
-  console.log(amount, receiverAcc);
   inputTransferAmount.value = inputTransferTo.value = '';
   if (
     amount > 0 &&
     currentAcc.balanceTotal >= amount &&
     receiverAcc?.userName !== currentAcc.userName
   ) {
-    console.log('Valid transfer');
     currentAcc.movements.push(-amount);
     receiverAcc.movements.push(amount);
     updateUI(currentAcc);
@@ -214,7 +202,6 @@ btnLoan.addEventListener('click', function (e) {
   ) {
     currentAcc.movements.push(loanAmount);
     updateUI(currentAcc);
-    console.log('loan granted');
   }
   inputLoanAmount.value = '';
 });
@@ -227,11 +214,10 @@ btnClose.addEventListener('click', function (e) {
     inputCloseUsername.value === currentAcc.userName &&
     Number(inputClosePin.value) === currentAcc.pin
   ) {
-    console.log('Correct Info');
     const index = accounts.findIndex(
       acc => acc.userName === currentAcc.userName
     );
-    console.log(index);
+
     accounts.splice(index, 1);
     containerApp.style.opacity = 0;
   }
@@ -244,5 +230,4 @@ btnSort.addEventListener('click', function (e) {
   e.preventDefault();
   displayMovements(currentAcc.movements, !sorted);
   sorted = !sorted;
-  console.log('sort click');
 });
