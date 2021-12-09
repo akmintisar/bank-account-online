@@ -13,7 +13,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Javascript Dev',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -30,7 +30,7 @@ const account4 = {
   owner: 'Demo User',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
-  pin: 9999,
+  pin: 1010,
 };
 
 const account5 = {
