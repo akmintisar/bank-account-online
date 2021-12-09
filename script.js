@@ -27,10 +27,10 @@ const account3 = {
 };
 
 const account4 = {
-  owner: 'Javascript Portfolio',
+  owner: 'Demo User',
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
-  pin: 1010,
+  pin: 9999,
 };
 
 const account5 = {
