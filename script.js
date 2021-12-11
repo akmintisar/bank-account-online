@@ -231,3 +231,12 @@ btnSort.addEventListener('click', function (e) {
   displayMovements(currentAcc.movements, !sorted);
   sorted = !sorted;
 });
+// Time
+
+const today = new Date();
+const day = `${today.getDate()}`.padStart(2, 0);
+const month = `${today.getMonth()}`.padStart(2, 0);
+const year = `${today.getFullYear()}`.padStart(2, 0);
+const hour = `${today.getHours()}`.padStart(2, 0);
+const minute = `${today.getMinutes()}`.padStart(2, 0);
+labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minute}`;
